@@ -1,9 +1,11 @@
 I usually uses:
+
 - [git]
 - [fzf]
 - [fd]
 - [ripgrep]
 - GNU-based utils (for MacOS: [coreutils] and [gnu-sed])
+
 Some scripts may use these utils, so please understand.
 
 [ripgrep]: https://github.com/BurntSushi/ripgrep
