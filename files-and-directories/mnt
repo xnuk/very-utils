@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Usage: mnt [... other mount options]
+# Mount with fzf
+mount /dev/$(lsblk -o NAME,KNAME,TYPE,SIZE,MODEL,MOUNTPOINT,LABEL,PARTLABEL | fzf --no-sort --reverse | awk '{print $2}') $@

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Check for git repo
+git rev-parse --short HEAD > /dev/null || exit 1
+
+# `git reflog` with fzf. Did you something wrong in git repo? Use this.
+hash=$(
+
+	git reflog --format='%C(auto)%h@%C(blue)%gd %C(auto)%gs' \
+		--relative-date --color |
+	fzf --ansi --reverse --no-multi --delimiter=@ --with-nth=2.. \
+		--preview='git show --ignore-space-change --color=always {+1}' |
+	cut -d @ -f1
+)
+
+if [ -n "$hash" ]; then
+	git reset --hard $hash
+else
+	exit 1
+fi

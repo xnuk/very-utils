@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# Remove branches that no more tracks remote.
+# This `awk` is very naive, like if you have "[gone]" in commit messages,
+# that branch will be destroyed.
+
+# You can just set alias for this.
+git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -D

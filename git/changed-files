@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Check for git repo
+git rev-parse HEAD > /dev/null || exit 1
+
+# Usage: changed-files [BRANCH]
+# Show list of changed files from [BRANCH]. Defaults to master.
+git log --name-only --pretty=format:'' ${1-master}..HEAD | sort -u | fzf

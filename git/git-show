@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# Check for git repo
+git rev-parse --short HEAD > /dev/null || exit 1
+
+# Usage: git-show ...[other git log options or branch name]
+# Git log with preview, powered by fzf. Select to `git show` it.
+# Piping / $()-ing this command will just show git hash.
+hash=$(
+	git log --color \
+	--pretty=format:'%Cred%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
+	--abbrev-commit $@ |
+	fzf --ansi --multi --no-sort --reverse \
+	--preview='git show --ignore-space-change --color=always {+1}' |
+	cut -d ' ' -f1
+)
+
+if [ -n "$hash" ]; then
+	# Just show hash in pipe mode
+	if [ -t 1 ]; then
+		git show --ignore-space-change $hash
+	else
+		echo $hash
+	fi
+else
+	exit 1
+fi
+
